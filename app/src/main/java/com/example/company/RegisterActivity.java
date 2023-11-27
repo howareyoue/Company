@@ -22,7 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth; //파이어베이스 인증
     private DatabaseReference mDatabaseRef ; //실시간데이터베이스
-    private EditText mEtmail,mEtPwd, mEtname, mEtrank, mEtnumber;
+    private EditText mEtmail,mEtPwd, mEtname, mEtrank, mEtnumber,mEtcompany;
     private Button mBtnregister;
 
     @SuppressLint("MissingInflatedId")
@@ -38,6 +38,7 @@ public class RegisterActivity extends AppCompatActivity {
         mEtname = findViewById(R.id.et_name);
         mEtrank = findViewById(R.id.et_rank);
         mEtnumber = findViewById(R.id.et_number);
+        mEtcompany= findViewById(R.id.et_companyname);
 
         mBtnregister = findViewById(R.id.btn_register);
 
@@ -49,6 +50,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String strName = mEtname.getText().toString();
                 String strRank = mEtrank.getText().toString();
                 String strNumber = mEtnumber.getText().toString();
+                String strCompany = mEtcompany.getText().toString();
 
                 //firebaseAuth 진행
                 mFirebaseAuth.createUserWithEmailAndPassword(strEmail,strPwd).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
@@ -63,6 +65,7 @@ public class RegisterActivity extends AppCompatActivity {
                             account.setName(strName);
                             account.setRank(strRank);
                             account.setNumber(strNumber);
+                            account.setCompanyname(strCompany);
 
                             //setValue : 데이터베이스에 삽입행위
                             mDatabaseRef.child("UserAccount").child(firebaseUser.getUid()).setValue(account);

@@ -7,6 +7,8 @@ public class UserAccount
     private String idToken; //Firebase Uid(고유 토큰정보)
     private  String name; //이름
     private String rank; //직급
+
+    private  String  companyname;
     private String number; //전화번호
     public UserAccount() { }
 
@@ -56,5 +58,13 @@ public class UserAccount
 
     public void setNumber(String number) {
         this.number = number;
+    }
+
+    public String getCompanyname() {
+        return companyname;
+    }
+
+    public void setCompanyname(String companyname) {
+        this.companyname = companyname;
     }
 }
