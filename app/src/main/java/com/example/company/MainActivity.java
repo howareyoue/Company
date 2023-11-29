@@ -9,21 +9,51 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button button;
+    private Button hob;
+    private Button car;
+    private Button taste;
+    private Button talk;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        button = findViewById(R.id.btn_cal);
-        button.setOnClickListener(new View.OnClickListener() {
+        hob = findViewById(R.id.btn_hobby);
+        hob.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
                 startActivity(intent);
             }
         });
+
+//        car = findViewById(R.id.btn_car);
+//        car.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(MainActivity.this,adadad.class);
+//                startActivity(intent);
+//            }
+//        });
+//
+//        taste = findViewById(R.id.btn_taste);
+//        taste.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(MainActivity.this, afadsga.class);
+//                startActivity(intent);
+//            }
+//        });
+//
+//        talk = findViewById(R.id.btn_talk);
+//        talk.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(MainActivity.this, fadsgag.class);
+//                startActivity(intent);
+//            }
+//        });
 
     }
 }
