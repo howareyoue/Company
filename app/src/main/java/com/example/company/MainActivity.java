@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
 //                startActivity(intent);
 //            }
 //        });
+//이거 지워주세요
 
     }
 }
