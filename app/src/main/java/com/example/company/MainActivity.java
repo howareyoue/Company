@@ -46,15 +46,15 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
 //
-//        talk = findViewById(R.id.btn_talk);
-//        talk.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(MainActivity.this, fadsgag.class);
-//                startActivity(intent);
-//            }
-//        });
-//이거 지워주세요
+        talk = findViewById(R.id.btn_talk);
+        talk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, talkActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
     }
 }
