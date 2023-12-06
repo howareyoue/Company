@@ -28,15 +28,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        car = findViewById(R.id.btn_car);
-//        car.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(MainActivity.this,adadad.class);
-//                startActivity(intent);
-//            }
-//        });
-//
+        car = findViewById(R.id.btn_car);
+        car.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this,CarActivity.class);
+                startActivity(intent);
+            }
+        });
+
         taste = findViewById(R.id.btn_taste);
         taste.setOnClickListener(new View.OnClickListener() {
             @Override

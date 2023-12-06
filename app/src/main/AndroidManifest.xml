@@ -45,6 +45,14 @@
         <activity
             android:name=".MainActivity"
             android:exported="true" />
+        <activity android:name=".CarActivity">
+        </activity>
+        <activity
+            android:name=".CarRegActivity"
+            android:exported="true" />
+        <activity android:name=".CarDetailActivity">
+        </activity>
+
     </application>
 
 </manifest>

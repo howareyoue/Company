@@ -37,7 +37,7 @@
         android:layout_width="118dp"
         android:layout_height="48dp"
         android:layout_marginEnd="70dp"
-        android:text="카플"
+        android:text="카풀"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
