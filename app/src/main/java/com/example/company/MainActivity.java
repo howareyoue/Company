@@ -37,14 +37,14 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
 //
-//        taste = findViewById(R.id.btn_taste);
-//        taste.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(MainActivity.this, afadsga.class);
-//                startActivity(intent);
-//            }
-//        });
+        taste = findViewById(R.id.btn_taste);
+        taste.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, TasteActivity.class);
+                startActivity(intent);
+            }
+        });
 //
         talk = findViewById(R.id.btn_talk);
         talk.setOnClickListener(new View.OnClickListener() {
