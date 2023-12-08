@@ -4,13 +4,12 @@ public class Message {
     private String nickname;
     private String uid;
 
-    public Message(String messageText, String currentUserNickname, String currentUserId) {
-        // Default constructor required for calls to DataSnapshot.getValue(Message.class)
-    }
+    public Message() {}
 
-    public Message(String text, String nickname) {
+    public Message(String text, String nickname, String currentUserId) {
         this.text = text;
         this.nickname = nickname;
+        this.uid = currentUserId; // 이 부분을 수정
     }
 
     public String getText() {

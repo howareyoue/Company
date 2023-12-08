@@ -2,6 +2,7 @@ package com.example.company;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -36,17 +37,29 @@ public class talkActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_talk);
 
+        // FirebaseUser 객체에서 UID를 가져옵니다.
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             currentUserId = user.getUid();
-            // 현재 사용자의 닉네임을 데이터베이스에서 가져옵니다. (예제 코드에서는 닉네임을 직접 설정합니다.)
-            currentUserNickname = "nickname_of_user"; // 실제 구현 시 데이터베이스에서 조회해야 합니다.
-        } else {
-            // 사용자가 로그인하지 않았다면 로그인 화면으로 이동합니다.
-            startActivity(new Intent(this, loginActivity.class));
-            finish();
-            return;
+
+            // 사용자의 닉네임을 데이터베이스에서 가져옵니다.
+            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("UserAccount").child(currentUserId);
+            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    UserAccount userAccount = dataSnapshot.getValue(UserAccount.class);
+                    if (userAccount != null) {
+                        currentUserNickname = userAccount.getName(); // 또는 적절한 필드 사용
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e("talkActivity", "Database error: " + databaseError.getMessage());
+                }
+            });
         }
+
 
         messageInput = findViewById(R.id.editText); // EditText의 ID를 맞춤
         sendButton = findViewById(R.id.buttonSend); // Button의 ID를 맞춤
@@ -82,13 +95,14 @@ public class talkActivity extends AppCompatActivity {
                 String messageText = messageInput.getText().toString().trim();
                 if (!messageText.isEmpty() && currentUserId != null && currentUserNickname != null) {
                     Message message = new Message(messageText, currentUserNickname, currentUserId);
-                    databaseReference.push().setValue(message);
+                    databaseReference.child("UserMessages").child(currentUserId).push().setValue(message);
                     messageInput.setText("");
                 }
             }
         });
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
+
+        databaseReference.child("UserMessages").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 messages.clear();
@@ -104,8 +118,9 @@ public class talkActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                // 에러 처리를 위한 코드를 여기에 작성하세요.
+                Log.e("talkActivity", "Database error: " + databaseError.getMessage());
             }
+
         });
     }
 }
