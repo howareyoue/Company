@@ -87,7 +87,7 @@ public class talkActivity extends AppCompatActivity {
         };
         messagesView.setAdapter(adapter);
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("messages");
+        databaseReference = FirebaseDatabase.getInstance().getReference("UserMessages");
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,22 +95,28 @@ public class talkActivity extends AppCompatActivity {
                 String messageText = messageInput.getText().toString().trim();
                 if (!messageText.isEmpty() && currentUserId != null && currentUserNickname != null) {
                     Message message = new Message(messageText, currentUserNickname, currentUserId);
-                    databaseReference.child("UserMessages").child(currentUserId).push().setValue(message);
+                    databaseReference.push().setValue(message.toMap()); // Modified here
                     messageInput.setText("");
                 }
             }
         });
 
 
-        databaseReference.child("UserMessages").addValueEventListener(new ValueEventListener() {
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 messages.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    // 여기서 DataSnapshot을 Message 객체로 변환합니다.
                     Message message = snapshot.getValue(Message.class);
                     if (message != null) {
-                        messages.add(message);
+                        long diff = System.currentTimeMillis() - message.getTimestamp();
+                        long hours = diff / (1000 * 60 * 60);
+                        if (hours < 24) {
+                            messages.add(message);
+                        } else {
+                            // Remove the message that is older than 24 hours
+                            snapshot.getRef().removeValue();
+                        }
                     }
                 }
                 adapter.notifyDataSetChanged();
@@ -120,7 +126,7 @@ public class talkActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e("talkActivity", "Database error: " + databaseError.getMessage());
             }
-
         });
+
     }
 }

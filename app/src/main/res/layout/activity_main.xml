@@ -9,34 +9,34 @@
 
     <Button
         android:id="@+id/btn_hobby"
-        android:layout_width="118dp"
-        android:layout_height="48dp"
+        android:layout_width="170dp"
+        android:layout_height="60dp"
         android:text="취미"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.15"
+        app:layout_constraintHorizontal_bias="0.066"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.759" />
+        app:layout_constraintVertical_bias="0.754" />
 
     <Button
         android:id="@+id/btn_talk"
-        android:layout_width="118dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="56dp"
+        android:layout_width="170dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="60dp"
         android:text="대화방"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.15"
+        app:layout_constraintHorizontal_bias="0.066"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btn_car"
-        android:layout_width="118dp"
-        android:layout_height="48dp"
-        android:layout_marginEnd="70dp"
+        android:layout_width="170dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="50dp"
         android:text="카풀"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -44,28 +44,37 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/btn_hobby"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.759" />
+        app:layout_constraintVertical_bias="0.755" />
 
     <Button
         android:id="@+id/btn_taste"
-        android:layout_width="118dp"
-        android:layout_height="48dp"
+        android:layout_width="170dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="50dp"
         android:text="맛집정보"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/btn_talk"
-        app:layout_constraintTop_toBottomOf="@+id/btn_car" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_car"
+        app:layout_constraintVertical_bias="0.423" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="413dp"
         android:layout_height="52dp"
+        android:gravity="center"
+        android:text="환영합니다"
+        android:textSize="40dp"
+        android:textColor="#FFFFFF"
         android:background="#2196F3"
         android:backgroundTint="#2196F3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
