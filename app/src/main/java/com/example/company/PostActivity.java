@@ -1,12 +1,20 @@
 package com.example.company;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 public class PostActivity extends AppCompatActivity {
 
@@ -34,17 +42,53 @@ public class PostActivity extends AppCompatActivity {
                 String restaurantAddress = editTextRestaurantAddress.getText().toString();
                 String review = editTextReview.getText().toString();
 
-                saveRestaurant(restaurantName, restaurantAddress, review);
+                String currentUserEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+                saveRestaurant(restaurantName, restaurantAddress, review, currentUserEmail);
 
                 finish();
             }
         });
     }
-
-    private void saveRestaurant(String name, String address, String review) {
-        Restaurant restaurant = new Restaurant(name, address, review);
+    private void saveRestaurant(String name, String address, String review, String company) {
+        Restaurant restaurant = new Restaurant(name, address, review, company);
 
         String key = databaseReference.push().getKey(); //고유한 키 생성
         databaseReference.child(key).setValue(restaurant);
+
+        // PostDetailActivity로 데이터 전달
+        Intent intent = new Intent(PostActivity.this, PostDetailActivity.class);
+        intent.putExtra("restaurantName", name);
+        intent.putExtra("restaurantAddress", address);
+        intent.putExtra("review", review);
+
+        startActivity(intent);
+    }
+    private String getCompanyForCurrentUser(String userEmail, CompanyCallback callback) {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        String uid = auth.getCurrentUser().getUid();
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(uid);
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    UserAccount userAccount = dataSnapshot.getValue(UserAccount.class);
+                    if (userAccount != null) {
+                        callback.onCompanyReceived(userAccount.getCompanyname());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // 오류 처리
+            }
+        });
+        return uid;
+    }
+    interface CompanyCallback {
+        void onCompanyReceived(String company);
+
+        void onError(String errorMessage);
     }
 }

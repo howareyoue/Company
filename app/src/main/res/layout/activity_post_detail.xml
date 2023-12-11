@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PostDetailActivity">
+
+    <TextView
+        android:id="@+id/detailNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:text="Name"
+        android:textSize="28sp" />
+
+    <TextView
+        android:id="@+id/detailAddressTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/detailNameTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:text="Address"
+        android:textSize="22sp" />
+
+    <TextView
+        android:id="@+id/detailReviewTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/detailAddressTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:text="Review"
+        android:textSize="22sp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="430dp"
+        android:layout_height="82dp"
+        android:background="#B94BCC"
+        android:backgroundTint="#EEABFA"
+        android:gravity="center"
+        android:text="식당 후기"
+        android:textColor="#454545"
+        android:textSize="32dp" />
+
+</RelativeLayout>
