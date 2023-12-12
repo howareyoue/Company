@@ -41,14 +41,23 @@ public class PostActivity extends AppCompatActivity {
                 String restaurantName = editTextRestaurantName.getText().toString();
                 String restaurantAddress = editTextRestaurantAddress.getText().toString();
                 String review = editTextReview.getText().toString();
-
                 String currentUserEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
-                saveRestaurant(restaurantName, restaurantAddress, review, currentUserEmail);
+                getCompanyForCurrentUser(currentUserEmail, new CompanyCallback() {
+                    @Override
+                    public void onCompanyReceived(String company) {
+                        saveRestaurant(restaurantName, restaurantAddress, review, company);
+                        finish();
+                    }
 
-                finish();
+                    @Override
+                    public void onError(String errorMessage) {
+                        // Handle error, maybe show a toast message
+                    }
+                });
             }
         });
+
     }
     private void saveRestaurant(String name, String address, String review, String company) {
         Restaurant restaurant = new Restaurant(name, address, review, company);
@@ -64,6 +73,7 @@ public class PostActivity extends AppCompatActivity {
 
         startActivity(intent);
     }
+
     private String getCompanyForCurrentUser(String userEmail, CompanyCallback callback) {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         String uid = auth.getCurrentUser().getUid();

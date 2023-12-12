@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         hob.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
+                Intent intent = new Intent(MainActivity.this, HobbyActivity.class);
                 startActivity(intent);
             }
         });

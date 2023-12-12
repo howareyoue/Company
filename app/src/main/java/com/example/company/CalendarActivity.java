@@ -88,6 +88,7 @@ public class CalendarActivity extends AppCompatActivity {
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                     String formattedDate = sdf.format(selectedDate);
 
+                    String eventToSave = "text:" + event;
                     // Firebase에 일정 추가
                     databaseReference.child(formattedDate).push().setValue(event);
 
