@@ -25,8 +25,17 @@ public class Restaurant implements Serializable {
         return address;
     }
     public String getReview() { return review; }
-    public String getCompany() {return company;}
 
+    public void setName(String name) {
+        this.name = name;
+    }
+    public void setAddress(String address) {
+        this.address = address;
+    }
+    public void setReview(String review) {
+        this.review = review;
+    }
+    public String getCompany() {return company;}
     public void setCompany(String company) {
         this.company = company;
     }

@@ -36,7 +36,6 @@ public class RegisterActivity extends AppCompatActivity {
         mEtmail = findViewById(R.id.et_email);
         mEtPwd = findViewById(R.id.et_pwd);
         mEtname = findViewById(R.id.et_name);
-        mEtrank = findViewById(R.id.et_rank);
         mEtnumber = findViewById(R.id.et_number);
         mEtcompany= findViewById(R.id.et_companyname);
 
@@ -48,7 +47,6 @@ public class RegisterActivity extends AppCompatActivity {
                 String strEmail = mEtmail.getText().toString();
                 String strPwd = mEtPwd.getText().toString();
                 String strName = mEtname.getText().toString();
-                String strRank = mEtrank.getText().toString();
                 String strNumber = mEtnumber.getText().toString();
                 String strCompany = mEtcompany.getText().toString();
 
@@ -63,7 +61,6 @@ public class RegisterActivity extends AppCompatActivity {
                             account.setEmailId(firebaseUser.getEmail());
                             account.setPassword(strPwd);
                             account.setName(strName);
-                            account.setRank(strRank);
                             account.setNumber(strNumber);
                             account.setCompanyname(strCompany);
 
