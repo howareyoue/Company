@@ -9,12 +9,12 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+
         <EditText
             android:id="@+id/editDriverName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="운전자 이름"/>
-
+            />
         <EditText
             android:id="@+id/editDepartureTime"
             android:layout_width="match_parent"

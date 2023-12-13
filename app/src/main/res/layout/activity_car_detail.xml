@@ -1,42 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp">
 
-    <RelativeLayout
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="81dp"
+        android:layout_height="85dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="8dp"
+        app:srcCompat="@drawable/driver" />
+
+    <TextView
+        android:id="@+id/textDriverNameDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_below="@+id/imageView2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"/>
+
+    <View
+        android:id="@+id/dividerLine"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp">
+        android:layout_height="1dp"
+        android:layout_below="@+id/textDriverNameDetail"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/darker_gray" />
+    <TextView
+        android:id="@+id/textDepartureTimeDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_below="@+id/dividerLine"
+        android:layout_marginTop="8dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp"/>
 
-        <TextView
-            android:id="@+id/textDriverNameDetail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:layout_marginBottom="8dp"/>
+    <TextView
+        android:id="@+id/textDepartureLocationDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_below="@+id/textDepartureTimeDetail"
+        android:layout_marginTop="8dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp"/>
 
-        <TextView
-            android:id="@+id/textDepartureTimeDetail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:layout_below="@+id/textDriverNameDetail"
-            android:layout_marginBottom="8dp"/>
+    <TextView
+        android:id="@+id/textDestinationDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_below="@+id/textDepartureLocationDetail"
+        android:layout_marginTop="8dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp"/>
 
-        <TextView
-            android:id="@+id/textRouteInfoDetail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:layout_below="@+id/textDepartureTimeDetail"/>
+    <Button
+        android:id="@+id/applyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textDestinationDetail"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="카풀 신청하기" />
 
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="신청"
-            android:layout_centerInParent="true" />
-    </RelativeLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

@@ -56,6 +56,7 @@ public class CarActivity extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     RegistrationInfo registrationInfo = snapshot.getValue(RegistrationInfo.class);
                     if (registrationInfo != null) {
+                        registrationInfo.setPostId(snapshot.getKey());
                         registrationList.add(registrationInfo);
                     }
                 }
@@ -87,7 +88,12 @@ public class CarActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 RegistrationInfo clickedInfo = registrationList.get(position);
 
+
+
                 Intent intent = new Intent(CarActivity.this, CarDetailActivity.class);
+
+                intent.putExtra("postId", clickedInfo.getPostId());
+
                 intent.putExtra("driverName", clickedInfo.getDriverName());
                 intent.putExtra("departureTime", clickedInfo.getDepartureTime());
                 intent.putExtra("departureLocation", clickedInfo.getDepartureLocation());

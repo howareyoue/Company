@@ -5,8 +5,13 @@ public class RegistrationInfo {
     private String departureTime;
     private String departureLocation;
     private String destination;
+
+    private String postId; // postId
+
     public RegistrationInfo() {
     }
+
+
 
     public RegistrationInfo(String driverName, String departureTime, String departureLocation, String destination) {
         this.driverName = driverName;
@@ -45,5 +50,14 @@ public class RegistrationInfo {
 
     public void setDestination(String destination) {
         this.destination = destination;
+    }
+
+
+    public String getPostId() {
+        return postId;
+    }
+
+    public void setPostId(String postId) {
+        this.postId = postId;
     }
 }
