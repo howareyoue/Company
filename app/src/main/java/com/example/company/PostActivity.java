@@ -32,7 +32,6 @@ public class PostActivity extends AppCompatActivity {
         editTextRestaurantName = findViewById(R.id.editTextRestaurantName);
         editTextRestaurantAddress = findViewById(R.id.editTextRestaurantAddress);
         editTextReview = findViewById(R.id.editTextReview);
-        editTextCompanyname = findViewById(R.id.editTextCompanyname);
         databaseReference = FirebaseDatabase.getInstance().getReference("restaurants");
 
         Button buttonSave = findViewById(R.id.buttonSave);
@@ -42,11 +41,21 @@ public class PostActivity extends AppCompatActivity {
                 String restaurantName = editTextRestaurantName.getText().toString();
                 String restaurantAddress = editTextRestaurantAddress.getText().toString();
                 String review = editTextReview.getText().toString();
-                String companyname = editTextCompanyname.getText().toString();
 
-                String currentUserEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
-                saveRestaurant(restaurantName, restaurantAddress, review, currentUserEmail);
+
+                getCompanyForCurrentUser(new CompanyCallback() {
+                    @Override
+                    public void onCompanyReceived(String companyname) {
+                        saveRestaurant(restaurantName, restaurantAddress, review, companyname);
+                    }
+
+                    @Override
+                    public void onError(String errorMessage) {
+                        // 오류 처리
+                    }
+                });
+
 
                 finish();
             }
@@ -66,10 +75,10 @@ public class PostActivity extends AppCompatActivity {
         intent.putExtra("companyname", companyname);
         startActivity(intent);
     }
-    private String getCompanyForCurrentUser(String userEmail, CompanyCallback callback) {
+    private String getCompanyForCurrentUser( CompanyCallback callback) {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         String uid = auth.getCurrentUser().getUid();
-        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(uid);
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("UserAccount").child(uid);
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

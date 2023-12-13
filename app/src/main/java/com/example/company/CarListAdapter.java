@@ -40,7 +40,6 @@ public class CarListAdapter extends ArrayAdapter<RegistrationInfo> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, CarDetailActivity.class);
-
                 intent.putExtra("postId", registrationInfo.getPostId());
                 intent.putExtra("driverName", registrationInfo.getDriverName());
                 intent.putExtra("departureTime", registrationInfo.getDepartureTime());
