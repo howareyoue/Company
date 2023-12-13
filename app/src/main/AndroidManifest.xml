@@ -54,6 +54,10 @@
         </activity>
         <activity android:name=".PostDetailActivity" />
 
+        <activity android:name=".ApplicationListActivity">
+
+        </activity>
+
     </application>
 
 </manifest>
