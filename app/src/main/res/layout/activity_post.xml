@@ -39,11 +39,19 @@
         android:layout_marginTop="16dp"
         android:layout_marginHorizontal="16dp" />
 
+    <EditText
+        android:id="@+id/editTextCompanyname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editTextReview"
+        android:hint="회사명"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="16dp" />
     <Button
         android:id="@+id/buttonSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editTextReview"
+        android:layout_below="@+id/editTextCompanyname"
         android:text="저장"
         android:layout_marginTop="16dp"
         android:layout_centerHorizontal="true" />

@@ -40,17 +40,21 @@ public class TasteActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == POST_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+
             String restaurantName = data.getStringExtra("restaurantName");
             String restaurantAddress = data.getStringExtra("restaurantAddress");
             String review = data.getStringExtra("review");
-            String company = data.getStringExtra("companyName");
+
+            // 현재 사용자의 회사명 가져오기
+            String currentUserEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+            String company = getCompanyForCurrentUser(currentUserEmail);
 
             Restaurant newRestaurant = new Restaurant(restaurantName, restaurantAddress, review, company);
+
             restaurantList.add(newRestaurant);
             adapter.notifyDataSetChanged();
         }
     }
-
 
     private String companyname;
     @Override
@@ -96,35 +100,24 @@ public class TasteActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 restaurantList.clear();
                 String currentUserEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+                companyname = getCompanyForCurrentUser(currentUserEmail);
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Restaurant restaurant = snapshot.getValue(Restaurant.class);
+                    if (restaurant != null) {
+                        // 여기에서 회사명 이외의 다른 정보 설정
+                        restaurant.setCompany(companyname);
 
-                // Use the callback to handle the company name
-                getCompanyForCurrentUser(new CompanyCallback() {
-                    @Override
-                    public void onCompanyReceived(String company) {
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            Restaurant restaurant = snapshot.getValue(Restaurant.class);
-                            if (restaurant != null) {
-                                // Set the company name for each restaurant
-                                restaurant.setCompany(company);
-                                restaurantList.add(restaurant);
-                            }
-                        }
-                        adapter.notifyDataSetChanged();
+                        // 리스트에 추가
+                        restaurantList.add(restaurant);
                     }
-
-                    @Override
-                    public void onError(String errorMessage) {
-                        // Handle the error here
-                    }
-                });
+                }
+                adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Handle cancellation here
             }
         });
-
 
         // 검색 기능 설정
         searchEditText.addTextChangedListener(new TextWatcher() {
@@ -161,111 +154,62 @@ public class TasteActivity extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getCompanyForCurrentUser(new CompanyCallback() {
-                    @Override
-                    public void onCompanyReceived(String company) {
-                        // Now you have the company name, you can proceed to create a new restaurant
-                        // and add it to Firebase
-                        Intent intent = new Intent(TasteActivity.this, PostActivity.class);
-                        intent.putExtra("companyName", company); // Pass the company name to PostActivity
-                        startActivityForResult(intent, POST_ACTIVITY_REQUEST_CODE);
-                    }
-
-                    @Override
-                    public void onError(String errorMessage) {
-                        // Handle the error here
-                    }
-                });
+                //게시글 작성 화면으로 이동
+                Intent intent = new Intent(TasteActivity.this, PostActivity.class);
+                startActivityForResult(intent, POST_ACTIVITY_REQUEST_CODE);
             }
         });
-
     }
     private void updateRestaurantList(String userEmail, DataSnapshot dataSnapshot) {
-        getCompanyForCurrentUser(new CompanyCallback() {
-            @Override
-            public void onCompanyReceived(String company) {
-                restaurantList.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Restaurant restaurant = snapshot.getValue(Restaurant.class);
-                    if (restaurant != null) {
-                        // Set the company name for each restaurant
-                        restaurant.setCompany(company);
+        String companyname = getCompanyForCurrentUser(userEmail);
+        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+            Restaurant restaurant = snapshot.getValue(Restaurant.class);
+            if (restaurant != null) {
+                // 여기에서 회사명 이외의 다른 정보 설정
+                restaurant.setCompany(companyname);
 
-                        // Add to the list
-                        restaurantList.add(restaurant);
-                    }
-                }
-                adapter.notifyDataSetChanged();
+                // 리스트에 추가
+                restaurantList.add(restaurant);
             }
-
-            @Override
-            public void onError(String errorMessage) {
-                // Handle the error here
-            }
-        });
-    }
-
-
-    private void updateRestaurantList(String userEmail, String restaurantName, String restaurantAddress, String review) {
-        getCompanyForCurrentUser(new CompanyCallback() {
-            @Override
-            public void onCompanyReceived(String company) {
-                // Create the new restaurant inside the callback
-                Restaurant newRestaurant = new Restaurant(restaurantName, restaurantAddress, review, company);
-
-                // Save to Firebase
-                DatabaseReference restaurantsRef = FirebaseDatabase.getInstance().getReference("restaurants");
-                String key = restaurantsRef.push().getKey();
-                restaurantsRef.child(key).setValue(newRestaurant);
-
-                // Add to local list and notify the adapter
-                restaurantList.add(newRestaurant);
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onError(String errorMessage) {
-                // Handle any errors here
-            }
-        });
-    }
-
-
-    private void getCompanyForCurrentUser(final CompanyCallback callback) {
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        if (auth.getCurrentUser() != null) {
-            String uid = auth.getCurrentUser().getUid();
-            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(uid);
-
-            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        UserAccount userAccount = dataSnapshot.getValue(UserAccount.class);
-                        if (userAccount != null) {
-                            callback.onCompanyReceived(userAccount.getCompanyname());
-                        } else {
-                            callback.onError("User account data is null");
-                        }
-                    } else {
-                        callback.onError("User data snapshot doesn't exist");
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    callback.onError(databaseError.getMessage());
-                }
-            });
-        } else {
-            callback.onError("User not logged in");
         }
+        adapter.notifyDataSetChanged();
     }
 
+    private void updateRestaurantList(String userEmail, String restaurantName, String restaurantAddress, String review, String company) {
+        String companyname = getCompanyForCurrentUser(company);
+        Restaurant newRestaurant = new Restaurant(restaurantName, restaurantAddress, review, companyname);
 
-    interface CompanyCallback {
-        void onCompanyReceived(String company);
-        void onError(String errorMessage);
+        // Firebase 데이터베이스에 저장
+        DatabaseReference restaurantsRef = FirebaseDatabase.getInstance().getReference("restaurants");
+        String key = restaurantsRef.push().getKey();
+        restaurantsRef.child(key).setValue(newRestaurant);
+
+        restaurantList.add(newRestaurant);
+        adapter.notifyDataSetChanged();
     }
 
+    private String getCompanyForCurrentUser(String userEmail) {
+        final String[] companyName = {""};
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        String uid = auth.getCurrentUser().getUid();
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(uid);
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    UserAccount userAccount = dataSnapshot.getValue(UserAccount.class);
+                    if (userAccount != null) {
+                        companyName[0] = userAccount.getCompanyname();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // 오류 처리
+            }
+        });
+        return companyName[0];
+    }
 }

@@ -21,6 +21,7 @@ public class PostActivity extends AppCompatActivity {
     private EditText editTextRestaurantName;
     private EditText editTextRestaurantAddress;
     private EditText editTextReview;
+    private EditText editTextCompanyname;
     private DatabaseReference databaseReference;
 
     @Override
@@ -31,7 +32,7 @@ public class PostActivity extends AppCompatActivity {
         editTextRestaurantName = findViewById(R.id.editTextRestaurantName);
         editTextRestaurantAddress = findViewById(R.id.editTextRestaurantAddress);
         editTextReview = findViewById(R.id.editTextReview);
-
+        editTextCompanyname = findViewById(R.id.editTextCompanyname);
         databaseReference = FirebaseDatabase.getInstance().getReference("restaurants");
 
         Button buttonSave = findViewById(R.id.buttonSave);
@@ -41,26 +42,18 @@ public class PostActivity extends AppCompatActivity {
                 String restaurantName = editTextRestaurantName.getText().toString();
                 String restaurantAddress = editTextRestaurantAddress.getText().toString();
                 String review = editTextReview.getText().toString();
+                String companyname = editTextCompanyname.getText().toString();
+
                 String currentUserEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
-                getCompanyForCurrentUser(currentUserEmail, new CompanyCallback() {
-                    @Override
-                    public void onCompanyReceived(String company) {
-                        saveRestaurant(restaurantName, restaurantAddress, review, company);
-                        finish();
-                    }
+                saveRestaurant(restaurantName, restaurantAddress, review, currentUserEmail);
 
-                    @Override
-                    public void onError(String errorMessage) {
-                        // Handle error, maybe show a toast message
-                    }
-                });
+                finish();
             }
         });
-
     }
-    private void saveRestaurant(String name, String address, String review, String company) {
-        Restaurant restaurant = new Restaurant(name, address, review, company);
+    private void saveRestaurant(String name, String address, String review, String companyname) {
+        Restaurant restaurant = new Restaurant(name, address, review, companyname);
 
         String key = databaseReference.push().getKey(); //고유한 키 생성
         databaseReference.child(key).setValue(restaurant);
@@ -70,10 +63,9 @@ public class PostActivity extends AppCompatActivity {
         intent.putExtra("restaurantName", name);
         intent.putExtra("restaurantAddress", address);
         intent.putExtra("review", review);
-
+        intent.putExtra("companyname", companyname);
         startActivity(intent);
     }
-
     private String getCompanyForCurrentUser(String userEmail, CompanyCallback callback) {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         String uid = auth.getCurrentUser().getUid();
